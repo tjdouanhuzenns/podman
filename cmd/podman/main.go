@@ -37,9 +37,9 @@ func main() {
 		logrus.Errorf("%v", err)
 	}
 
-	if logrus.IsLevelEnabled(logrus.DebugLevel) {
-		logrus.Debugf("Podman exiting with code %d", registry.GetExitCode())
-	}
+	// Always log the exit code at debug level for easier troubleshooting,
+	// rather than only when the debug level is explicitly enabled.
+	logrus.Debugf("Podman exiting with code %d", registry.GetExitCode())
 
 	os.Exit(registry.GetExitCode())
 }
