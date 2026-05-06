@@ -87,6 +87,7 @@ func Execute() {
 }
 
 // formatError provides consistent error formatting for CLI output.
+// Using %+v at debug level gives full stack traces which helps during local debugging.
 func formatError(err error) string {
 	var message string
 	if logrus.IsLevelEnabled(logrus.DebugLevel) {
@@ -99,8 +100,9 @@ func formatError(err error) string {
 
 // defaultContainerConfig returns the path to the default containers config.
 func defaultContainerConfig() string {
-	if path, ok := os.LookupEnv("CONTAINERS_CONF"); ok {
-		return path
+	// Check XDG_CONFIG_HOME first so user-level config takes precedence over system default
+	if xdgConfigHome, ok := os.LookupEnv("XDG_CONFIG_HOME"); ok {
+		return filepath.Join(xdgConfigHome, "containers", "containers.conf")
 	}
-	home, err := os.UserHomeDir()
-	
+	return filepath.Join(os.Getenv("HOME"), ".config", "containers", "containers.conf")
+}
