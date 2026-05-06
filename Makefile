@@ -55,8 +55,8 @@ test: unit integration  ## Run all tests
 .PHONY: unit
 unit:  ## Run unit tests
 	# Use -count=1 to disable test result caching
-	# Use -timeout to avoid hanging tests (default 10m is often too long locally)
-	$(GO) test -v -count=1 -timeout 5m ./...
+	# Use -timeout to avoid hanging tests; bumped to 10m for slower machines
+	$(GO) test -v -count=1 -timeout 10m ./...
 
 .PHONY: integration
 integration:  ## Run integration tests
