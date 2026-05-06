@@ -34,7 +34,8 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	// Persistent flags available to all subcommands
-	rootCmd.PersistentFlags().StringVar(&logLevel, "log-level", "warn",
+	// Changed default log level from "warn" to "info" for more verbose output during personal use
+	rootCmd.PersistentFlags().StringVar(&logLevel, "log-level", "info",
 		`Log messages above specified level (trace, debug, info, warn, warning, error, fatal, panic)`)
 	rootCmd.PersistentFlags().StringVar(&connectionURI, "url", "",
 		`Podman service URI`)
@@ -102,8 +103,4 @@ func defaultContainerConfig() string {
 		return path
 	}
 	home, err := os.UserHomeDir()
-	if err != nil {
-		return ""
-	}
-	return filepath.Join(home, ".config", "containers", "containers.conf")
-}
+	
