@@ -41,6 +41,7 @@ func init() {
 		`Podman service URI`)
 	rootCmd.PersistentFlags().StringVar(&identity, "identity", "",
 		`path to SSH identity file, (CONTAINER_SSHKEY)`)
+	// noout defaults to false; keeping stdout output enabled by default for interactive use
 	rootCmd.PersistentFlags().BoolVar(&noout, "noout", false,
 		`do not output to stdout`)
 	rootCmd.PersistentFlags().StringArrayVarP(&transferInput, "storage-opt", "", []string{},
@@ -55,6 +56,9 @@ func persistentPreRunE(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("unable to parse log level: %w", err)
 	}
 	logrus.SetLevel(level)
+
+	// Log the command being run at debug level — handy for tracing issues locally
+	logrus.Debugf("running command: %s", cmd.CommandPath())
 
 	// Set up default config if needed
 	if _, err := config.Default(); err != nil {
@@ -98,11 +102,4 @@ func formatError(err error) string {
 	return message
 }
 
-// defaultContainerConfig returns the path to the default containers config.
-func defaultContainerConfig() string {
-	// Check XDG_CONFIG_HOME first so user-level config takes precedence over system default
-	if xdgConfigHome, ok := os.LookupEnv("XDG_CONFIG_HOME"); ok {
-		return filepath.Join(xdgConfigHome, "containers", "containers.conf")
-	}
-	return filepath.Join(os.Getenv("HOME"), ".config", "containers", "containers.conf")
-}
+// defaultContainerConfig returns t
