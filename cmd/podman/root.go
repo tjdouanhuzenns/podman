@@ -92,14 +92,10 @@ func Execute() {
 
 // formatError provides consistent error formatting for CLI output.
 // Using %+v at debug level gives full stack traces which helps during local debugging.
+// At info level and above, just print the plain error message to keep output clean.
 func formatError(err error) string {
-	var message string
-	if logrus.IsLevelEnabled(logrus.DebugLevel) {
-		message = fmt.Sprintf("Error: %+v", err)
-	} else {
-		message = fmt.Sprintf("Error: %v", err)
+	if logrus.GetLevel() >= logrus.DebugLevel {
+		return fmt.Sprintf("Error: %+v", err)
 	}
-	return message
+	return fmt.Sprintf("Error: %v", err)
 }
-
-// defaultContainerConfig returns t
