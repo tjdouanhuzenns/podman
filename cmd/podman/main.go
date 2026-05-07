@@ -39,15 +39,8 @@ func main() {
 
 	exitCode := registry.GetExitCode()
 
-	// Always log the exit code at debug level for easier troubleshooting,
-	// rather than only when the debug level is explicitly enabled.
+	// Always log the exit code at debug level for easier troubleshooting.
 	logrus.Debugf("Podman exiting with code %d", exitCode)
-
-	// Log non-zero exit codes at warn level so they stand out more clearly
-	// in log output during personal debugging sessions.
-	if exitCode != 0 {
-		logrus.Warnf("Podman exiting with non-zero code %d", exitCode)
-	}
 
 	os.Exit(exitCode)
 }
