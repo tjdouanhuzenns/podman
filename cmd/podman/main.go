@@ -43,10 +43,9 @@ func main() {
 	// Always log the exit code at debug level for easier troubleshooting.
 	logrus.Debugf("Podman exiting with code %d", exitCode)
 
-	// Log non-zero exit codes at warn level (changed from info) so they
-	// stand out more clearly when tailing logs at the default log level.
+	// Only log non-zero exit codes to reduce noise in normal operation.
 	if exitCode != 0 {
-		logrus.Warnf("Podman exiting with non-zero code %d", exitCode)
+		logrus.Debugf("Podman exiting with non-zero code %d", exitCode)
 	}
 
 	os.Exit(exitCode)
