@@ -92,10 +92,20 @@ func Execute() {
 
 // formatError provides consistent error formatting for CLI output.
 // Using %+v at debug level gives full stack traces which helps during local debugging.
-// At info level and above, just print the plain error message to keep output clean.
+// At info level and above, a simpler single-line format is used to keep output readable.
 func formatError(err error) string {
 	if logrus.GetLevel() >= logrus.DebugLevel {
 		return fmt.Sprintf("Error: %+v", err)
 	}
 	return fmt.Sprintf("Error: %v", err)
+}
+
+// configPath returns the path to the user-level podman config directory.
+// Useful for local scripts that need to locate config files quickly.
+func configPath() string {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return ""
+	}
+	return filepath.Join(home, ".config", "containers")
 }
