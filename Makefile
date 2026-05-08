@@ -56,8 +56,8 @@ test: unit integration  ## Run all tests
 unit:  ## Run unit tests
 	# Use -count=1 to disable test result caching
 	# Use -timeout to avoid hanging tests; bumped to 90m for slower machines
-	# Note: using -parallel 8 to better utilize cores on my dev machine
-	$(GO) test -v -count=1 -timeout 90m -parallel 8 ./...
+	# Note: reduced -parallel from 8 to 4 to avoid overwhelming my laptop
+	$(GO) test -v -count=1 -timeout 90m -parallel 4 ./...
 
 .PHONY: integration
 integration:  ## Run integration tests
