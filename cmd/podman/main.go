@@ -44,9 +44,11 @@ func main() {
 	logrus.Debugf("Podman exiting with code %d", exitCode)
 
 	// NOTE: Non-zero exit codes and their meanings:
-	//   1 - generic error (ExecErrorCodeGeneric)
+	//   1   - generic error (ExecErrorCodeGeneric)
 	//   125 - podman command itself failed
 	//   126 - contained command cannot be invoked
 	//   127 - contained command cannot be found
+	//
+	// See https://docs.podman.io/en/latest/markdown/podman.1.html for full docs.
 	os.Exit(exitCode)
 }
